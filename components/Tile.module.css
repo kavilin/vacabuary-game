@@ -1,0 +1,81 @@
+.tile {
+    width: 140px;
+    height: 140px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 4px solid white;
+    user-select: none;
+}
+
+.tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.selected {
+    border-color: var(--secondary-color);
+    transform: scale(1.05);
+    box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.3);
+}
+
+.matched {
+    transform: scale(0);
+    opacity: 0;
+}
+
+.error {
+    animation: shake 0.5s;
+    border-color: var(--primary-color);
+}
+
+.image {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.text {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-color);
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateX(5px) rotate(5deg);
+    }
+
+    75% {
+        transform: translateX(-5px) rotate(-5deg);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .tile {
+        width: 100px;
+        height: 100px;
+    }
+
+    .text {
+        font-size: 1.8rem;
+    }
+}
