@@ -1,0 +1,40 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@10.9.2
+2 info using node@v22.17.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/kavi/Library/Caches/typescript/5.9/.npmrc
+5 silly config load:file:/Users/kavi/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm install types-registry@latest
+8 verbose argv "install" "--ignore-scripts" "types-registry@latest"
+9 verbose logfile logs-max:10 dir:/Users/kavi/vacabuary-game/.npm-cache/_logs/2025-12-06T04_51_37_809Z-
+10 verbose logfile /Users/kavi/vacabuary-game/.npm-cache/_logs/2025-12-06T04_51_37_809Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+13 silly packumentCache corgi:https://registry.npmjs.org/types-registry cache-miss
+14 http fetch GET 200 https://registry.npmjs.org/types-registry 131ms (cache revalidated)
+15 silly packumentCache corgi:https://registry.npmjs.org/types-registry set size:613102 disposed:false
+16 silly idealTree buildDeps
+17 silly fetch manifest types-registry@0.1.748
+18 silly packumentCache full:https://registry.npmjs.org/types-registry cache-miss
+19 http fetch GET 200 https://registry.npmjs.org/types-registry 36ms (cache revalidated)
+20 silly packumentCache full:https://registry.npmjs.org/types-registry set size:1314897 disposed:false
+21 silly placeDep ROOT types-registry@0.1.748 REPLACE for:  want: 0.1.748
+22 silly reify moves {}
+23 silly audit bulk request {
+23 silly audit   '@types/node': [ '24.10.1' ],
+23 silly audit   '@types/page': [ '1.11.9' ],
+23 silly audit   '@types/react': [ '19.2.7' ],
+23 silly audit   '@types/react-dom': [ '19.2.3' ],
+23 silly audit   csstype: [ '3.2.3' ],
+23 silly audit   'undici-types': [ '7.16.0' ],
+23 silly audit   'types-registry': [ '0.1.748' ]
+23 silly audit }
+24 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 204ms
+25 silly audit report {}
+26 verbose cwd /Users/kavi/Library/Caches/typescript/5.9
+27 verbose os Darwin 25.0.0
+28 verbose node v22.17.0
+29 verbose npm  v10.9.2
+30 verbose exit 0
+31 info ok

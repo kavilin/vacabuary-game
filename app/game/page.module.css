@@ -1,0 +1,23 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+}
+
+.title {
+  font-size: 3rem;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+  text-align: center;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 2rem;
+  }
+}

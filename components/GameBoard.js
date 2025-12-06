@@ -4,7 +4,12 @@ import { playSuccessSound, playErrorSound, playWinSound } from '../utils/audio';
 import Tile from './Tile';
 import styles from './GameBoard.module.css';
 
+import { useSearchParams } from 'next/navigation';
+
 export default function GameBoard() {
+    const searchParams = useSearchParams();
+    const difficulty = searchParams.get('difficulty') || 'easy';
+
     const [tiles, setTiles] = useState([]);
     const [selectedTiles, setSelectedTiles] = useState([]);
     const [matchedIds, setMatchedIds] = useState([]);
@@ -14,7 +19,7 @@ export default function GameBoard() {
 
     useEffect(() => {
         startNewGame();
-    }, []);
+    }, [difficulty]);
 
     const startNewGame = async () => {
         setLoading(true);
@@ -24,17 +29,17 @@ export default function GameBoard() {
         setSelectedTiles([]);
 
         try {
-            const res = await fetch('/api/generate-game');
+            const res = await fetch(`/api/generate-game?difficulty=${difficulty}`);
             const data = await res.json();
 
             if (data.error) {
                 // Fallback data if API fails (e.g. no key)
                 console.warn("API Error, using fallback data:", data.error);
                 const fallbackItems = [
-                    { id: '1', word: '蘋果', imageUrl: 'https://image.pollinations.ai/prompt/cartoon%20apple?width=300&nologo=true' },
-                    { id: '2', word: '車', imageUrl: 'https://image.pollinations.ai/prompt/cartoon%20car?width=300&nologo=true' },
-                    { id: '3', word: '貓', imageUrl: 'https://image.pollinations.ai/prompt/cartoon%20cat?width=300&nologo=true' },
-                    { id: '4', word: '狗', imageUrl: 'https://image.pollinations.ai/prompt/cartoon%20dog?width=300&nologo=true' },
+                    { id: '1', word: '蘋果', imageUrl: 'https://image.pollinations.ai/prompt/disney-style%20realistic%203d%20rendering%20apple?width=300&nologo=true' },
+                    { id: '2', word: '車', imageUrl: 'https://image.pollinations.ai/prompt/disney-style%20realistic%203d%20rendering%20car?width=300&nologo=true' },
+                    { id: '3', word: '貓', imageUrl: 'https://image.pollinations.ai/prompt/disney-style%20realistic%203d%20rendering%20cat?width=300&nologo=true' },
+                    { id: '4', word: '狗', imageUrl: 'https://image.pollinations.ai/prompt/disney-style%20realistic%203d%20rendering%20dog?width=300&nologo=true' },
                 ];
                 setupBoard(fallbackItems);
                 setLoading(false);

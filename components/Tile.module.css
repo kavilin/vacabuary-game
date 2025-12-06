@@ -34,17 +34,25 @@
     border-color: var(--primary-color);
 }
 
-.image {
+.imageWrapper {
+    position: relative;
     width: 90%;
     height: 90%;
+}
+
+.image {
     object-fit: contain;
     pointer-events: none;
 }
 
 .text {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: var(--text-color);
+    text-align: center;
+    word-wrap: break-word;
+    padding: 5px;
+    line-height: 1.2;
 }
 
 @keyframes shake {

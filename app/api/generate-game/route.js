@@ -1,45 +1,65 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
+import fs from 'fs';
+import path from 'path';
 
-export async function GET() {
+export async function GET(request) {
     try {
-        const apiKey = process.env.GEMINI_API_KEY;
-        if (!apiKey) {
-            return NextResponse.json({ error: "GEMINI_API_KEY is not set" }, { status: 500 });
+        const { searchParams } = new URL(request.url);
+        const difficulty = searchParams.get('difficulty') || 'easy';
+
+        // Read from local vocabulary file
+        const filePath = path.join(process.cwd(), 'data', 'vocabulary.json');
+        let items = [];
+
+        if (fs.existsSync(filePath)) {
+            const fileContent = fs.readFileSync(filePath, 'utf8');
+            items = JSON.parse(fileContent);
+
+            // Filter by difficulty
+            // If difficulty is 'easy', only show easy.
+            // If 'medium', show easy + medium.
+            // If 'hard', show all (or just hard/medium).
+            // Let's be strict:
+            if (difficulty === 'easy') {
+                items = items.filter(i => i.difficulty === 'easy');
+            } else if (difficulty === 'medium') {
+                items = items.filter(i => i.difficulty === 'medium');
+            } else {
+                items = items.filter(i => i.difficulty === 'hard');
+            }
+
+            // STRICT REQUIREMENT: Only show items with local images
+            items = items.filter(i => i.local_image_path);
+
+            // Fallback if not enough items in category (try to find ANY local items)
+            if (items.length < 4) {
+                const fileContent = fs.readFileSync(filePath, 'utf8');
+                const allItems = JSON.parse(fileContent);
+                // Fallback: use any local items regardless of difficulty
+                items = allItems.filter(i => i.local_image_path);
+            }
+        } else {
+            // Fallback if file doesn't exist
+            items = [
+                { id: 'fallback-1', word: 'Apple', image_prompt: 'A red apple' },
+                { id: 'fallback-2', word: 'Car', image_prompt: 'A blue car' },
+                { id: 'fallback-3', word: 'Cat', image_prompt: 'A cute cat' },
+                { id: 'fallback-4', word: 'Dog', image_prompt: 'A happy dog' }
+            ];
         }
 
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash",
-            generationConfig: { responseMimeType: "application/json" }
-        });
+        // Select 4 random items
+        const selectedItems = items
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 4);
 
-        const prompt = `
-      You are a content generator for a toddler's educational game.
-      Generate 4 distinct, simple, and recognizable objects (e.g., animals, fruits, vehicles).
-      Return a JSON array named "items". Each item should have:
-      - "id": A unique string ID (e.g., "item-1").
-      - "word": The Traditional Chinese name of the object (e.g., "蘋果").
-      - "english_word": The English name (e.g., "Apple").
-      - "image_prompt": A specific, simple description for an AI image generator to create a cute, cartoon-style illustration of the object on a white background.
-    `;
-
-        const result = await model.generateContent(prompt);
-        const responseText = result.response.text();
-        const data = JSON.parse(responseText);
-
-        // Ensure we have the items array
-        const rawItems = data.items || data;
-
-        // Add image URLs using Pollinations.ai (free, fast, no auth needed)
-        const items = rawItems.map(item => ({
+        // Add image URLs (prefer local, fallback to Pollinations)
+        const gameItems = selectedItems.map(item => ({
             ...item,
-            // seed helps keep it consistent if we re-render, but random is fine too. 
-            // We add 'cartoon, vector, white background' to ensure style consistency.
-            imageUrl: `https://image.pollinations.ai/prompt/${encodeURIComponent(item.image_prompt + " cute cartoon vector art, white background")}?width=400&height=400&nologo=true&seed=${Math.floor(Math.random() * 1000)}`
+            imageUrl: item.local_image_path || `https://image.pollinations.ai/prompt/${encodeURIComponent(item.image_prompt + " disney-style realistic 3d rendering, white background")}?width=400&height=400&nologo=true&seed=${Math.floor(Math.random() * 1000)}`
         }));
 
-        return NextResponse.json({ items });
+        return NextResponse.json({ items: gameItems });
     } catch (error) {
         console.error("Error generating game content:", error);
         return NextResponse.json({ error: "Failed to generate game data" }, { status: 500 });

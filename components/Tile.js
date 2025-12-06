@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from './Tile.module.css';
 
 export default function Tile({ content, type, isSelected, isMatched, isError, onClick }) {
@@ -12,7 +13,16 @@ export default function Tile({ content, type, isSelected, isMatched, isError, on
             onClick={() => !isMatched && onClick()}
         >
             {type === 'image' ? (
-                <img src={content} alt="game item" className={styles.image} />
+                <div className={styles.imageWrapper}>
+                    <Image
+                        src={content}
+                        alt="game item"
+                        fill
+                        sizes="(max-width: 600px) 100px, 140px"
+                        className={styles.image}
+                        priority={true} // Load eagerly to avoid pop-in
+                    />
+                </div>
             ) : (
                 <span className={styles.text}>{content}</span>
             )}
