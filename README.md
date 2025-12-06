@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vocabulary Game 🎮
 
-## Getting Started
+一個互動式的詞彙學習遊戲，使用 Disney 風格的 3D 渲染圖片。
 
-First, run the development server:
+## 功能特色
+
+- 🎯 三個難度等級（Easy, Medium, Hard）
+- 🎨 650+ 個詞彙，每個都有精美的 Disney 風格圖片
+- 🎲 隨機選擇 4 個詞彙進行遊戲
+- 📱 響應式設計，支援各種裝置
+
+## 技術棧
+
+- **Framework**: Next.js 15
+- **Styling**: CSS
+- **Image Generation**: Hugging Face (FLUX.1-schnell)
+- **Deployment**: Netlify / Vercel
+
+## 本地開發
 
 ```bash
+# 安裝依賴
+npm install
+
+# 啟動開發伺服器
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 開啟瀏覽器訪問
+http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 部署
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+此專案是完全靜態的，無需環境變數或 API keys。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Netlify
+1. Push 到 GitHub
+2. 在 Netlify 導入 repository
+3. 自動部署完成
 
-## Learn More
+### Vercel
+1. Push 到 GitHub
+2. 在 Vercel 導入 repository
+3. 自動部署完成
 
-To learn more about Next.js, take a look at the following resources:
+## 專案結構
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+├── app/
+│   ├── api/generate-game/  # 遊戲 API（讀取本地資料）
+│   ├── game/               # 遊戲頁面
+│   └── page.js             # 首頁
+├── components/
+│   └── GameBoard.js        # 遊戲主要元件
+├── data/
+│   └── vocabulary.json     # 詞彙資料（650+ 詞）
+├── public/
+│   └── images/             # 所有圖片（650+ 張）
+└── scripts/                # 開發腳本（僅本地使用）
+    ├── generate_vocab.js
+    ├── enhance_prompts.js
+    └── download_images_hf.js
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 開發腳本
 
-## Deploy on Vercel
+`scripts/` 資料夾中的腳本僅用於本地開發，需要 API keys：
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Gemini API** (用於生成和分類詞彙)
+- **Hugging Face Token** (用於生成圖片)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+這些腳本不會部署到生產環境。
+
+## License
+
+MIT
