@@ -6,6 +6,7 @@ export async function GET(request) {
     try {
         const { searchParams } = new URL(request.url);
         const difficulty = searchParams.get('difficulty') || 'easy';
+        const mode = searchParams.get('mode') || 'click'; // 'click' or 'matching'
 
         // Read from local vocabulary file
         const filePath = path.join(process.cwd(), 'data', 'vocabulary.json');

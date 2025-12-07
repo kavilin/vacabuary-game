@@ -23,6 +23,15 @@ export default function Home() {
                     <span>(Expert)</span>
                 </Link>
             </div>
+
+            <div className={styles.divider}>或選擇遊戲模式</div>
+
+            <div className={styles.menu}>
+                <Link href="/matching" className={`${styles.btn} ${styles.matching}`}>
+                    連連看遊戲 🎯
+                    <span>(拖曳連線配對)</span>
+                </Link>
+            </div>
         </main>
     );
 }
